@@ -70,26 +70,7 @@ export default function Login() {
           </button>
         </form>
 
-        <div className="mt-4 pt-3 border-top">
-          <p className="text-center text-muted small fw-bold mb-2">Demo Akun (Klik untuk autofill):</p>
-          <div className="d-flex gap-2 justify-content-center">
-            <button type="button" className="btn btn-sm btn-outline-secondary"
-              onClick={() => { setNidnNim('admin'); setPassword('admin123'); }}>
-              👤 Admin
-            </button>
-            <button type="button" className="btn btn-sm btn-outline-secondary"
-              onClick={() => { setNidnNim('11111111'); setPassword('123123'); }}>
-              🎓 Dosen
-            </button>
-            <button type="button" className="btn btn-sm btn-outline-secondary"
-              onClick={() => { setNidnNim('20230001'); setPassword('mhs123'); }}>
-              🧑‍🎓 Mahasiswa
-            </button>
-          </div>
-          <div className="text-center text-muted mt-2" style={{fontSize:'11px'}}>
-            Admin: admin / admin123 &bull; Dosen: 11111111 / 123123 &bull; Mhsw: 20230001 / mhs123
-          </div>
-        </div>
+
       </div>
     </div>
   );
