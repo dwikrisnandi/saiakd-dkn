@@ -1,0 +1,109 @@
+sqlite_sequence:
+CREATE TABLE sqlite_sequence(name,seq)
+
+users:
+CREATE TABLE users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nidn_nim TEXT UNIQUE NOT NULL,
+        name TEXT NOT NULL,
+        role TEXT NOT NULL,
+        password TEXT NOT NULL,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      )
+
+courses:
+CREATE TABLE courses (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        code TEXT UNIQUE NOT NULL,
+        name TEXT NOT NULL,
+        sks INTEGER NOT NULL,
+        semester INTEGER NOT NULL
+      )
+
+classes:
+CREATE TABLE classes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT UNIQUE NOT NULL
+      )
+
+class_enrollments:
+CREATE TABLE class_enrollments (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        class_id INTEGER NOT NULL,
+        mahasiswa_id INTEGER NOT NULL,
+        FOREIGN KEY (class_id) REFERENCES classes(id) ON DELETE CASCADE,
+        FOREIGN KEY (mahasiswa_id) REFERENCES users(id) ON DELETE CASCADE,
+        UNIQUE(class_id, mahasiswa_id)
+      )
+
+schedules:
+CREATE TABLE schedules (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        class_id INTEGER NOT NULL,
+        course_id INTEGER NOT NULL,
+        dosen_id INTEGER NOT NULL,
+        day TEXT NOT NULL,
+        time_start TEXT NOT NULL,
+        time_end TEXT NOT NULL,
+        room TEXT,
+        FOREIGN KEY (class_id) REFERENCES classes(id) ON DELETE CASCADE,
+        FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE,
+        FOREIGN KEY (dosen_id) REFERENCES users(id) ON DELETE CASCADE
+      )
+
+materials:
+CREATE TABLE materials (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        schedule_id INTEGER,
+        title TEXT NOT NULL,
+        description TEXT,
+        file_url TEXT,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP, content TEXT, content_type TEXT DEFAULT 'link',
+        FOREIGN KEY (schedule_id) REFERENCES schedules(id) ON DELETE CASCADE
+      )
+
+assignments:
+CREATE TABLE assignments (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        schedule_id INTEGER,
+        title TEXT NOT NULL,
+        description TEXT,
+        deadline DATETIME NOT NULL,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (schedule_id) REFERENCES schedules(id) ON DELETE CASCADE
+      )
+
+submissions:
+CREATE TABLE submissions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        assignment_id INTEGER,
+        mahasiswa_id INTEGER,
+        file_url TEXT,
+        grade INTEGER DEFAULT NULL,
+        submitted_at DATETIME DEFAULT CURRENT_TIMESTAMP, file_data TEXT, nilai INTEGER,
+        FOREIGN KEY (assignment_id) REFERENCES assignments(id) ON DELETE CASCADE,
+        FOREIGN KEY (mahasiswa_id) REFERENCES users(id) ON DELETE CASCADE
+      )
+
+attendance:
+CREATE TABLE attendance (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        schedule_id INTEGER,
+        mahasiswa_id INTEGER,
+        meeting_number INTEGER NOT NULL,
+        status TEXT NOT NULL,
+        date TEXT NOT NULL,
+        FOREIGN KEY (schedule_id) REFERENCES schedules(id) ON DELETE CASCADE,
+        FOREIGN KEY (mahasiswa_id) REFERENCES users(id) ON DELETE CASCADE
+      )
+
+rps:
+CREATE TABLE rps (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        course_id INTEGER NOT NULL,
+        title TEXT NOT NULL,
+        file_url TEXT NOT NULL,
+        uploaded_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE
+      )
+

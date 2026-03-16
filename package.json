@@ -1,0 +1,18 @@
+{
+  "name": "siakad-pamitran",
+  "version": "1.0.0",
+  "description": "Fullstack SIAKAD untuk STMIK PAMITRAN",
+  "main": "index.js",
+  "scripts": {
+    "start:api": "cd api && npm start",
+    "start:client": "cd client && npm run dev",
+    "dev": "npm-run-all --parallel start:api start:client",
+    "install:all": "cd api && npm install && cd ../client && npm install"
+  },
+  "keywords": [],
+  "author": "Antigravity",
+  "license": "ISC",
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  }
+}
