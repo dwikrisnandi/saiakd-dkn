@@ -1012,7 +1012,8 @@ app.put('/api/submissions/:id/nilai', [verifyToken, verifyRole(['dosen', 'admin'
 
 // Serve static files from built React frontend (for production)
 app.use(express.static(path.join(__dirname, '../client/dist')));
-app.get(/.*/, (req, res) => {
+// SPA fallback: only catch routes without file extensions (not .js, .css, .svg etc)
+app.get(/^[^.]*$/, (req, res) => {
   res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
